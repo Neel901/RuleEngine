@@ -1,9 +1,11 @@
-package com.example.RuleEngine.controller;
+package com.example.rule.engine.controller;
 
-import com.example.RuleEngine.model.Node;
-import com.example.RuleEngine.model.Rule;
-import com.example.RuleEngine.repository.RuleRepository;
-import com.example.RuleEngine.service.AppService;
+import com.example.rule.engine.dto.RuleEngineResponse;
+import com.example.rule.engine.exception.RuleEngineException;
+import com.example.rule.engine.dto.Node;
+import com.example.rule.engine.model.Rule;
+import com.example.rule.engine.repository.RuleRepository;
+import com.example.rule.engine.service.impl.AppServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +18,7 @@ import java.util.Map;
 public class AppController {
 
     @Autowired
-    private AppService ruleService;
+    private AppServiceImpl ruleService;
 
     @Autowired
     private RuleRepository ruleRepository;
@@ -28,9 +30,13 @@ public class AppController {
     }
 
     @PostMapping("/create")
-    public Node createRule(@RequestBody Map<String, String> request) {
+    public RuleEngineResponse createRule(@RequestBody Map<String, String> request) {
         String ruleString = request.get("ruleString");
-        ruleService.saveRule(ruleString);
+        try {
+            ruleService.saveRule(ruleString);
+        } catch (RuleEngineException e) {
+            return RuleEngineResponse.builder().message(e.getMessage()).build();
+        }
         return ruleService.createRule(ruleString);
     }
 
@@ -40,10 +46,10 @@ public class AppController {
         String ruleString2 = (String) request.get("rule2");
         String operator = (String) request.get("operator");
 
-        Node rule1 = ruleService.createRule(ruleString1);
-        Node rule2 = ruleService.createRule(ruleString2);
+        RuleEngineResponse rule1 = ruleService.createRule(ruleString1);
+        RuleEngineResponse rule2 = ruleService.createRule(ruleString2);
 
-        return ruleService.combineRules(rule1, rule2, operator);
+        return ruleService.combineRules(rule1.getNode(), rule2.getNode(), operator).getNode();
     }
 
     @PostMapping("/evaluate")
@@ -51,8 +57,8 @@ public class AppController {
         String ruleString = (String) request.get("rule");
         Map<String, Object> data = (Map<String, Object>) request.get("data");
 
-        Node rule = ruleService.createRule(ruleString);
-        boolean result = ruleService.evaluateRule(rule, data);
+        RuleEngineResponse rule = ruleService.createRule(ruleString);
+        boolean result = ruleService.evaluateRule(rule.getNode(), data);
 
         return Map.of("result", result);
     }

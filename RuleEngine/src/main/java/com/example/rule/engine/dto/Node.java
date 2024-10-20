@@ -1,4 +1,4 @@
-package com.example.RuleEngine.model;
+package com.example.rule.engine.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
