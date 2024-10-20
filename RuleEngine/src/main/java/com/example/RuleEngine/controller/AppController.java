@@ -15,14 +15,12 @@ public class AppController {
     @Autowired
     private AppService ruleService;
 
-    // API to create a rule from a rule string
     @PostMapping("/create")
     public Node createRule(@RequestBody Map<String, String> request) {
         String ruleString = request.get("ruleString");
         return ruleService.createRule(ruleString);
     }
 
-    // API to combine two rules using an operator (AND/OR)
     @PostMapping("/combine")
     public Node combineRules(@RequestBody Map<String, Object> request) {
         String ruleString1 = (String) request.get("rule1");
@@ -35,7 +33,6 @@ public class AppController {
         return ruleService.combineRules(rule1, rule2, operator);
     }
 
-    // API to evaluate a rule against the provided data
     @PostMapping("/evaluate")
     public Map<String, Boolean> evaluateRule(@RequestBody Map<String, Object> request) {
         String ruleString = (String) request.get("rule");

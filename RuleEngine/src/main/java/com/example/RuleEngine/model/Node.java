@@ -1,12 +1,9 @@
 package com.example.RuleEngine.model;
 
-
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-//@AllArgsConstructor
 @NoArgsConstructor
 public class Node {
     private String type; // "operator" or "operand"
@@ -14,7 +11,6 @@ public class Node {
     private Node left;
     private Node right;
 
-    // Constructors
     public Node(String type, String value) {
         this.type = type;
         this.value = value;

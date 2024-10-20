@@ -1,6 +1,6 @@
-const API_BASE_URL = 'http://localhost:8080/api/rules'; // Adjust this URL if your backend runs on a different port
+const API_BASE_URL = 'http://localhost:8080/api/rules'; 
 
-// Function to create a rule and display the AST
+
 function createRule() {
     const ruleString = document.getElementById('rule-string').value;
 
@@ -13,18 +13,18 @@ function createRule() {
     })
     .then(response => response.json())
     .then(data => {
-        // Display the AST
+        
         document.getElementById('ast-output').innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
     })
     .catch(error => console.error('Error:', error));
 }
 
-// Function to evaluate the rule against user data
+
 function evaluateRule() {
     const ruleString = document.getElementById('rule-string').value;
     const userData = document.getElementById('user-data').value;
 
-    // Convert the JSON string into a valid object
+    
     let data;
     try {
         data = JSON.parse(userData);
@@ -45,14 +45,14 @@ function evaluateRule() {
     })
     .then(response => response.json())
     .then(result => {
-        // Display the result
+        
         const evalResult = result.result ? 'True' : 'False';
         document.getElementById('evaluation-result').innerHTML = `<strong>${evalResult}</strong>`;
     })
     .catch(error => console.error('Error:', error));
 }
 
-// Function to combine two rules with a selected operator
+
 function combineRules() {
     const rule1 = document.getElementById('rule1').value;
     const rule2 = document.getElementById('rule2').value;
@@ -67,7 +67,7 @@ function combineRules() {
     })
     .then(response => response.json())
     .then(data => {
-        // Display the combined AST
+        
         document.getElementById('combined-ast-output').innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
     })
     .catch(error => console.error('Error:', error));
