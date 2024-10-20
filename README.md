@@ -1,4 +1,4 @@
-An app where you can ceate, combine, evaluate and view rules in the form of an abstract syntax tree.
+An app where you can create, combine, evaluate and view rules in the form of an abstract syntax tree.
 
 
 <img src="assets/ruleengine1.png">
