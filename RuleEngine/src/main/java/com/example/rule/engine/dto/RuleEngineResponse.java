@@ -14,4 +14,5 @@ import lombok.NoArgsConstructor;
 public class RuleEngineResponse {
     private Node node;
     private String message;
+    private boolean result;
 }
