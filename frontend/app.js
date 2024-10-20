@@ -72,3 +72,24 @@ function combineRules() {
     })
     .catch(error => console.error('Error:', error));
 }
+function fetchRules() {
+    fetch(`${API_BASE_URL}`) // Call the API endpoint
+    .then(response => response.json())
+    .then(data => {
+        const rulesOutput = document.getElementById('rules-output');
+        rulesOutput.innerHTML = ''; // Clear any previous content
+
+        data.forEach(rule => {
+            const li = document.createElement('li');
+            li.textContent = rule.rule_string; // Assuming 'rule_string' contains the rule
+            rulesOutput.appendChild(li);
+        });
+    })
+    .catch(error => {
+        console.error('Error fetching rules:', error);
+    });
+}
+
+// Call fetchRules on page load to display all rules
+window.onload = fetchRules;
+

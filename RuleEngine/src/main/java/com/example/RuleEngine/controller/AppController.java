@@ -1,10 +1,13 @@
 package com.example.RuleEngine.controller;
 
 import com.example.RuleEngine.model.Node;
+import com.example.RuleEngine.model.Rule;
+import com.example.RuleEngine.repository.RuleRepository;
 import com.example.RuleEngine.service.AppService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -15,9 +18,19 @@ public class AppController {
     @Autowired
     private AppService ruleService;
 
+    @Autowired
+    private RuleRepository ruleRepository;
+
+    // API to get all rules
+    @GetMapping
+    public List<Rule> getAllRules() {
+        return ruleRepository.findAll(); // Fetch all rules from the database
+    }
+
     @PostMapping("/create")
     public Node createRule(@RequestBody Map<String, String> request) {
         String ruleString = request.get("ruleString");
+        ruleService.saveRule(ruleString);
         return ruleService.createRule(ruleString);
     }
 

@@ -1,6 +1,9 @@
 package com.example.RuleEngine.service;
 
 import com.example.RuleEngine.model.Node;
+import com.example.RuleEngine.model.Rule;
+import com.example.RuleEngine.repository.RuleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -8,8 +11,23 @@ import java.util.Map;
 @Service
 public class AppService {
 
+    @Autowired
+    private RuleRepository ruleRepository;
+
     private int index; // Used to track the current position of the token during parsing
     private String[] tokens; // Tokenized input of the rule string
+
+    public void saveRule(String ruleString){
+        // Check if the rule string is valid (contains at least one operator)
+        if (!isValidRuleString(ruleString)) {
+            throw new IllegalArgumentException("Invalid rule string: must contain at least one logical operator (AND/OR) and comparison operator (>, <, =, >=, <=, !=).");
+        }
+
+        // Save the rule string to the database
+        Rule rule = new Rule();
+        rule.setRule_string(ruleString);
+        ruleRepository.save(rule); // Save the rule to the repository
+    }
 
     // Function to create the AST from the rule string
     public Node createRule(String ruleString) {
@@ -19,9 +37,23 @@ public class AppService {
                 .replaceAll("(?i)AND", "AND") // Standardize 'AND' operator to upper case
                 .replaceAll("(?i)OR", "OR");  // Standardize 'OR' operator to upper case
 
+
         tokens = ruleString.trim().split("\\s+"); // Tokenize the rule string based on whitespace
         index = 0; // Start from the first token
         return parseExpression(); // Begin parsing the rule string into an AST
+    }
+
+    private boolean isValidRuleString(String ruleString) {
+        // Check if the rule string contains at least one 'AND' or 'OR' operator
+        boolean hasLogicalOperator = ruleString.contains("AND") || ruleString.contains("OR");
+
+        // Check for comparison operators
+        boolean hasComparisonOperator = ruleString.contains(">") || ruleString.contains("<") ||
+                ruleString.contains("=") || ruleString.contains(">=") ||
+                ruleString.contains("<=") || ruleString.contains("!=");
+
+        // Return true if both logical and comparison operators are present
+        return hasLogicalOperator && hasComparisonOperator;
     }
 
     // Parse expressions: expressions are chains of terms combined with OR operators
