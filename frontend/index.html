@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rule Engine UI</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Rule Engine</h1>
+
+        <!-- Section 1: Create Rule Form -->
+        <section>
+            <h2>Create Rule</h2>
+            <div class="form-group">
+                <label for="rule-string">Enter Rule String:</label>
+                <input type="text" id="rule-string" placeholder="e.g., (age > 30 AND department = 'Sales')" />
+            </div>
+            <button onclick="createRule()">Create Rule</button>
+            <h3>AST (Abstract Syntax Tree):</h3>
+            <div id="ast-output">AST will be displayed here.</div>
+        </section>
+
+        <!-- Section 2: Evaluate Rule Form -->
+        <section>
+            <h2>Evaluate Rule</h2>
+            <div class="form-group">
+                <label for="user-data">Enter User Data (JSON format):</label>
+                <textarea id="user-data" placeholder='{"age": 35, "department": "Sales", "salary": 60000, "experience": 3}'></textarea>
+            </div>
+            <button onclick="evaluateRule()">Evaluate Rule</button>
+            <h3>Evaluation Result:</h3>
+            <div id="evaluation-result">Result will be displayed here.</div>
+        </section>
+
+        <!-- Section 3: Combine Two Rules -->
+        <section>
+            <h2>Combine Two Rules</h2>
+            <div class="form-group">
+                <label for="rule1">Enter Rule 1:</label>
+                <input type="text" id="rule1" placeholder="e.g., (age > 30 AND department = 'Sales')" />
+            </div>
+            <div class="form-group">
+                <label for="rule2">Enter Rule 2:</label>
+                <input type="text" id="rule2" placeholder="e.g., (salary > 50000)" />
+            </div>
+            <div class="form-group">
+                <label for="operator">Choose Operator (AND/OR):</label>
+                <select id="operator">
+                    <option value="AND">AND</option>
+                    <option value="OR">OR</option>
+                </select>
+            </div>
+            <button onclick="combineRules()">Combine Rules</button>
+            <h3>Combined AST (Abstract Syntax Tree):</h3>
+            <div id="combined-ast-output">Combined AST will be displayed here.</div>
+        </section>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
