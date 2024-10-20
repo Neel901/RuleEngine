@@ -8,7 +8,7 @@ An app where you can create, combine, evaluate and view rules in the form of an 
 <img src="assets/ruleengine3.png">
 
 ## Tech Stack
-The backend is built with Spring Boot, while the frontend utilizes JavaScript. The database in use is MySQL.
+The backend is built with Spring Boot, while the frontend utilizes HTML CSS JavaScript. The database in use is MySQL.
 
 ## Pre-Requisite - 
 1. An IDE of your choice (IntelliJ used here)
